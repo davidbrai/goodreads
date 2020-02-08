@@ -75,3 +75,8 @@ class GoodreadsReview():
     def owned(self):
         """Is the book owned by this user?"""
         return self._review_dict['owned']
+	
+    @property
+    def user(self):
+        """User who posted the comment"""
+        return self._review_dict['user']
