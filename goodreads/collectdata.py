@@ -24,7 +24,7 @@ class GoodreadsCollect():
             review_obj = self._grclient.review(review.gid)
             self._review_data_list.append(self._parse_review_data(review_obj))
             self._user_data_list.append(self._parse_user_data(review_obj))
-            self._author_data_list.append(self.__parse_author_data(review_obj))
+            self._author_data_list.append(self._parse_author_data(review_obj))
             self._book_data_list.append(self._parse_book_data(review_obj))
 
         for module_name, module_data in zip(["reviews","user","author","book"], [self._review_data_list, self._user_data_list, self._author_data_list, self._book_data_list]):
@@ -103,7 +103,7 @@ class GoodreadsCollect():
         )
 
 
-    def __parse_author_data(self, review_obj):
+    def _parse_author_data(self, review_obj):
         """Parse author data from review object"""
         author = review_obj.book['authors']['author']
         return OrderedDict(
