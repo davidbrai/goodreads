@@ -4,6 +4,7 @@ from collections import OrderedDict
 import pandas as pd
 import os
 import csv
+import time
 
 class GoodreadsCollect():
 
@@ -21,6 +22,7 @@ class GoodreadsCollect():
     def fetch_data(self):
         reviews = self._grclient.recent_reviews()
         for review in reviews:
+            time.sleep(0.5)
             review_obj = self._grclient.review(review.gid)
             self._review_data_list.append(self._parse_review_data(review_obj))
             self._user_data_list.append(self._parse_user_data(review_obj))
