@@ -80,3 +80,38 @@ class GoodreadsReview():
     def user(self):
         """User who posted the comment"""
         return self._review_dict['user']
+
+    @property
+    def votes(self):
+        """Votes on reviews"""
+        return self._review_dict['votes']
+
+    @property
+    def spoiler_flag(self):
+        """spoiler flag on reviews"""
+        return self._review_dict['spoiler_flag']
+
+    @property
+    def spoiler_state(self):
+        """spoiler state on review"""
+        return self._review_dict['spoilers_state']
+
+    @property
+    def data_added(self):
+        """Date review added"""
+        return self._review_dict['date_added']
+
+    @property
+    def date_updated(self):
+        """Date review updated"""
+        return self._review_dict['date_updated']
+
+    @property
+    def read_count(self):
+        """Read count for review"""
+        return self._review_dict['read_count']
+
+    @property
+    def authors(self):
+        """Authors of the book reviewed"""
+        return self._review_dict['book']['authors']
