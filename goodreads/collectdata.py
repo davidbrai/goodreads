@@ -5,6 +5,9 @@ import pandas as pd
 import os
 import csv
 import time
+from goodreads import textcleaner
+from datetime import datetime
+from goodreads import client
 
 class GoodreadsCollect():
 
@@ -41,6 +44,10 @@ class GoodreadsCollect():
             pd\
                 .DataFrame(module_data)\
                 .to_csv(path_or_buf=file, index=False, mode=write_mode, header=header, quoting=csv.QUOTE_MINIMAL)
+            self._user_data_list = list()
+            self._review_data_list = list()
+            self._author_data_list = list()
+            self._book_data_list = list()
 
 
     def _parse_review_data(self, review_obj):
@@ -51,16 +58,17 @@ class GoodreadsCollect():
                 "user_id" : review_obj.user['id'],
                 "book_id" : review_obj.book['id']['#text'],
                 "author_id" : review_obj.book['authors']['author']['id'],
-                "review_text": review_obj.body,
+                "review_text": textcleaner.GoodreadsTextCleaner.clean_all(review_obj.body),
                 "review_rating": review_obj.rating,
                 "review_votes": review_obj.votes,
                 "spoiler_flag": review_obj.spoiler_flag,
                 "spoiler_state": review_obj.spoiler_state,
                 "review_added_date": review_obj.data_added,
-                "review_updated_date": review_obj.data_added,
+                "review_updated_date": review_obj.date_updated,
                 "review_read_count": review_obj.read_count,
                 "comments_count": review_obj.comments_count,
-                "review_url": review_obj.url
+                "review_url": review_obj.url,
+                "record_create_timestamp" : datetime.now()
             }.items()
         )
 
@@ -76,7 +84,8 @@ class GoodreadsCollect():
                 "uri": review_obj.user['uri'],
                 "user_image_url": review_obj.user['image_url'],
                 "small_image_url": review_obj.user['small_image_url'],
-                "has_image": review_obj.user['has_image']
+                "has_image": review_obj.user['has_image'],
+                "record_create_timestamp": datetime.now()
             }.items()
         )
 
@@ -98,9 +107,10 @@ class GoodreadsCollect():
                 "publication_month": review_obj.book['publication_month'],
                 "average_rating": review_obj.book['average_rating'],
                 "ratings_count": review_obj.book['ratings_count'],
-                "description": review_obj.book['description'],
+                "description": textcleaner.GoodreadsTextCleaner.clean_all(review_obj.book['description']),
                 "authors": review_obj.book['authors']['author']['id'],
-                "published": review_obj.book['published']
+                "published": review_obj.book['published'],
+                "record_create_timestamp": datetime.now()
             }.items()
         )
 
@@ -117,5 +127,6 @@ class GoodreadsCollect():
                         "average_rating" : author['average_rating'],
                         "rating_count" : author['ratings_count'],
                         "text_review_count" : author['text_reviews_count'],
+                        "record_create_timestamp": datetime.now()
                         }.items()
             )

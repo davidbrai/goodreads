@@ -34,7 +34,8 @@ def main():
         try:
             grcollector.fetch_data()
         except Exception as e:
-            logger.error("Some exception occured. Ignoring..")
+            logging.exception("Some exception occured : ", e)
+            continue
 
         logging.debug(f"Waiting for {config['TIMEPARAM']['WAIT_TIME']} seconds")
         time.sleep(wait_time)
