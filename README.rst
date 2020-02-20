@@ -1,3 +1,5 @@
+**======NEW RELEASE TO BE AVAILABLE SOON ON PyPI=====** 
+
 goodreads
 =========
 
