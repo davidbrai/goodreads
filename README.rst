@@ -1,9 +1,7 @@
-**======NEW RELEASE TO BE AVAILABLE SOON ON PyPI=====** 
-
+=========
 goodreads
 =========
 
-This project is no longer maintained.
 
 |Build Status| |Coverage Status| |Documentation Status| |Downloads|
 |Latest Version| |Supported Python versions| |License|
