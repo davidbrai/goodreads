@@ -77,14 +77,27 @@ class GoodreadsUser():
 
     def reviews(self, page=1):
         """Get all books and reviews on user's shelves"""
-        resp = self._client.session.get("/review/list.xml",
-                                        {'v': 2, 'id': self.gid, 'page': page, 
-                                         'sort' : 'review' , 'key': self._client.client_key})
-        return [review.GoodreadsReview(r) for r in resp['reviews']['review']]
+        try:
+            resp = self._client.session.get("/review/list.xml",
+                                            {'v': 2, 'id': self.gid, 'page': page, 
+                                             'sort' : 'review' , 'key': self._client.client_key})
+            user_reviews = [review.GoodreadsReview(r) for r in resp['reviews']['review']]
+            
+        except KeyError:
+            user_reviews = []
+        
+        return user_reviews
+
 
     def shelves(self, page=1):
         """Get the user's shelves. This method gets shelves only for users with
         public profile"""
-        resp = self._client.request("shelf/list.xml",
-                                    {'user_id': self.gid, 'page': page})
-        return [shelf.GoodreadsShelf(s) for s in resp['shelves']['user_shelf']]
+        try:
+            resp = self._client.request("shelf/list.xml",
+                                       {'user_id': self.gid, 'page': page})
+            user_shelves = [shelf.GoodreadsShelf(s) for s in resp['shelves']['user_shelf']]
+        
+        except KeyError:
+            user_shelves = []
+        
+        return user_shelves
