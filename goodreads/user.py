@@ -26,6 +26,12 @@ class GoodreadsUser():
     def user_name(self):
         """Goodreads handle of the user"""
         return self._user_dict['user_name']
+    
+    @property
+    def friends(self):
+        """  friends of this user """
+        try:
+            resp = self._client.session.get("/friend/")
 
     @property
     def name(self):
@@ -78,9 +84,11 @@ class GoodreadsUser():
     def reviews(self, page=1):
         """Get all books and reviews on user's shelves"""
         try:
-            resp = self._client.session.get("/review/list.xml",
+            resp = self._client.session.get("/review/show.xml",
                                             {'v': 2, 'id': self.gid, 'page': page, 
-                                             'sort' : 'review' , 'key': self._client.client_key})
+                                             'sort' : 'review' , 'key': self._client.client_key,
+                                            'oauth_token:' : self._client.session.access_token})
+            
             user_reviews = [review.GoodreadsReview(r) for r in resp['reviews']['review']]
             
         except KeyError:
